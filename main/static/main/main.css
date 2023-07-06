@@ -1,0 +1,15 @@
+main {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.card-image-top{
+    width: 18rem;
+    height: 15rem;
+    
+}
+
+.form-control:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}

@@ -1,0 +1,32 @@
+{% extends "main/base.html" %}
+{% block content %}
+
+<h1>Bass</h1>
+<div class="row m-2">
+
+    {% for item in items %}
+    <div class="card sm-6 m-2 p-2" style="width: 18rem;">
+        <img src="{{ item.images.url }}" class="card-img-top rounded" style="height: 10rem;" alt="...">
+        <div class="card-body pt-2 p-0">
+            <h5 class="card-title">{{ item.name }}</h5>
+            <div class="container d-flex justify-content-between p-0">
+                <div class="col">
+                    <p class="card-text">Rating: {{ item.rating }}</p>
+                </div>
+                <div class="col d-flex justify-content-end">
+                    {% if item.rating is None or item.rating == 0.0 %}
+                        <a href="{% url 'item-details' item.slug %}" class="btn btn-success btn-sm">Review Now</a>
+                    {% else %}
+                        <a href="{% url 'item-details' item.slug %}" class="card-link">View Reviews</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+      </div>
+    {% endfor %}
+
+</div>
+
+
+
+{% endblock %}

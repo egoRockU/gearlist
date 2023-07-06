@@ -1,0 +1,9 @@
+from django.contrib import admin
+from .models import Item, Review
+
+class ItemAdmin(admin.ModelAdmin):
+    list_display = ("name",)
+    prepopulated_fields = {"slug": ("name",)}
+
+admin.site.register(Item, ItemAdmin)
+admin.site.register(Review)

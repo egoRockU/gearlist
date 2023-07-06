@@ -1,0 +1,16 @@
+{% extends "main/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="card border-0 bg-light text-dark m-2 text-center">     
+    <img src="{{ user.profile.image.url }}" class="card-img rounded-circle border mx-auto d-block" style="height: 20rem; width: 20rem;" alt="">
+    <h1 class="card-title">{{ user.username }}</h1>
+    <p class="card-text">{{ user.email }}</p>
+</div>
+<div class="containter">
+    <div class="row">
+    </div>
+</div>
+
+
+{% endblock %}
