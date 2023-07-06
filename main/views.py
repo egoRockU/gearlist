@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from .models import Item
 from django.views.generic import DetailView
+from django.shortcuts import redirect, get_object_or_404
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def home(request):
@@ -42,3 +45,15 @@ class ItemDetailView(DetailView):
         context["title"] = self.get_object().name
         context["reviews"] = self.get_object().reviews.all()
         return context
+    
+@login_required
+def add_favorite(request, id):
+    post = get_object_or_404(Item, id=id)
+    if post.favorites.filter(id=request.user.id).exists():
+        post.favorites.remove(request.user)
+        messages.error(request, f'{post.name}  is removed from favorites')
+    else:
+        post.favorites.add(request.user)
+        messages.success(request, f'{post.name} is added to favorites')
+
+    return redirect('item-details', slug=post.slug)

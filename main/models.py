@@ -18,6 +18,7 @@ class Item(models.Model):
     i_sound = models.FloatField(null=True, default=None)
     i_playability = models.FloatField(null=True, default=None)
     i_build_quality = models.FloatField(null=True, default=None)
+    favorites = models.ManyToManyField(User, related_name='favorite', default=None, blank=True)
 
     def recalculate_rating(self):
         reviews = self.reviews.all()
@@ -68,4 +69,5 @@ class Review(models.Model):
 
     def __str__(self):
         return f'{self.item_reviewed} review - {self.author}'
+
 
