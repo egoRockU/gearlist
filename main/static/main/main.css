@@ -22,3 +22,7 @@ a.fav-button {
     align-items: center;
     text-align: center;
 }
+
+.anchor-title:link {
+    color: black;
+}

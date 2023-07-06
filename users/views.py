@@ -5,7 +5,7 @@ from django.contrib import messages
 from .forms import UserRegisterForm
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
-from main.models import Item
+from main.models import Item, Review
 
 # Create your views here.
 def register(request):
@@ -37,6 +37,8 @@ class UserLoginView(auth_views.LoginView):
 def profile(request):
     context = {
         'title': 'Profile',
+        'favorites': Item.objects.filter(favorites=request.user),
+        'reviews': Review.objects.filter(author=request.user),
     }
     return render(request, 'users/profile.html', context)
 
