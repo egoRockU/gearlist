@@ -57,7 +57,7 @@ class Review(models.Model):
     r_sound = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(5.0)], null=True, default=0.0)
     r_playability = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(5.0)], null=True, default=0.0)
     r_build_quality = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(5.0)], null=True, default=0.0)
-
+    
     def calculate_score(self):
         self.score = round(float((self.r_cosmetics + self.r_sound + self.r_playability + self.r_build_quality) / 4),2)
 

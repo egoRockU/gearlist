@@ -37,8 +37,8 @@ class UserLoginView(auth_views.LoginView):
 def profile(request):
     context = {
         'title': 'Profile',
-        'favorites': Item.objects.filter(favorites=request.user),
-        'reviews': Review.objects.filter(author=request.user),
+        'favorites': Item.objects.filter(favorites=request.user).order_by('-date_added'),
+        'reviews': Review.objects.filter(author=request.user).order_by('-item_reviewed__date_added'),
     }
     return render(request, 'users/profile.html', context)
 

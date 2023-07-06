@@ -26,3 +26,9 @@ a.fav-button {
 .anchor-title:link {
     color: black;
 }
+
+.item-name{
+    display: inline-block;
+    max-width: 100px;
+    overflow: hidden;
+}
