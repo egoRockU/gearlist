@@ -1,12 +1,20 @@
 from django.db import models
 from django.utils import timezone
+from django.utils.text import slugify
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.urls import reverse
 
 class Item(models.Model):
+    CATEGORIES = [
+        ("Bass", "Bass"),
+        ("Drums", "Drums"),
+        ("Guitar", "Guitar"),
+        ("Others", "Others"),
+        ]
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=75)
-    category = models.CharField(max_length=75, default='Others')
+    category = models.CharField(max_length=75,choices=CATEGORIES, default='Others')
     rating = models.FloatField(null=True, blank=True, default=None)
     brand = models.CharField(max_length=75, null=True)
     description = models.TextField(null=True)
@@ -47,6 +55,14 @@ class Item(models.Model):
     def __str__(self):                                          
         return self.name
     
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+    
+    def get_absolute_url(self):
+        return reverse("item-details", kwargs={"slug": self.slug})
+    
+
 
 class Review(models.Model):
     author = models.ForeignKey(User,related_name='reviewed', null=True, on_delete=models.SET_NULL)

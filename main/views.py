@@ -50,6 +50,10 @@ class ItemCreateView(CreateView):
     model = Item
     fields = ['name', 'category', 'brand', 'description', 'images']
 
+    def form_valid(self, form):
+        form.instance.added_by = self.request.user
+        return super().form_valid(form)
+
 
 @login_required
 def add_favorite(request, id):
