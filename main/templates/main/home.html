@@ -1,7 +1,10 @@
 {% extends "main/base.html" %}
 {% block content %}
 
-<h1>Recently Added</h1>
+<div class="d-grid d-flex justify-content-between align-items-center p-2">
+    <h1>Recently Added</h1>
+    <h5><a href="{% url 'item-create' %}" class="link-dark">Add Items</a></h5>
+</div>
 <div class="row m-2">
 
     {% for item in items %}

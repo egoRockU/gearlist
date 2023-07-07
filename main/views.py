@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from .models import Item
-from django.views.generic import DetailView
+from django.views.generic import DetailView, CreateView
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-# Create your views here.
+
 def home(request):
     context = {
         'title': 'Home',
@@ -35,7 +35,6 @@ def bass(request):
     return render(request, 'main/bass.html', context)
 
 
-
 class ItemDetailView(DetailView):
     model = Item
     template_name = 'main/item_details.html'
@@ -45,7 +44,13 @@ class ItemDetailView(DetailView):
         context["title"] = self.get_object().name
         context["reviews"] = self.get_object().reviews.all()
         return context
-    
+
+
+class ItemCreateView(CreateView):
+    model = Item
+    fields = ['name', 'category', 'brand', 'description', 'images']
+
+
 @login_required
 def add_favorite(request, id):
     post = get_object_or_404(Item, id=id)
