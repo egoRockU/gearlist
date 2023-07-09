@@ -1,0 +1,19 @@
+{% extends "main/base.html" %}
+{% block content %}
+
+<div>
+    <form method="POST" action="">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Delete Items?</legend>
+            <h2>Are you sure you want to delete {{object.name}}</h2>
+        </fieldset>
+        <div class="form-group py-3">
+            <button class="btn btn-outline-danger" type="submit">Yes</button>
+            <a class="btn btn-outline-secondary" href="{% url 'item-details' object.slug %}">Cancel</a>
+        </div>
+    </form>
+</div>
+
+
+{% endblock %}

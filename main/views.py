@@ -1,9 +1,11 @@
+from typing import Optional
 from django.shortcuts import render
 from .models import Item
-from django.views.generic import DetailView, CreateView
+from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 
 def home(request):
@@ -46,13 +48,37 @@ class ItemDetailView(DetailView):
         return context
 
 
-class ItemCreateView(CreateView):
+class ItemCreateView(LoginRequiredMixin, CreateView):
     model = Item
     fields = ['name', 'category', 'brand', 'description', 'images']
 
     def form_valid(self, form):
         form.instance.added_by = self.request.user
         return super().form_valid(form)
+
+
+class ItemUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Item
+    fields = ['name', 'category', 'brand', 'description', 'images']
+
+    def form_valid(self, form):
+        form.instance.added_by = self.request.user
+        return super().form_valid(form)
+    
+    def test_func(self):
+        item = self.get_object()
+        return (self.request.user == item.added_by)
+            
+
+class ItemDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Item
+    success_url = '/'
+
+    def test_func(self):
+        item = self.get_object()
+        return (self.request.user == item.added_by)
+    
+
 
 
 @login_required

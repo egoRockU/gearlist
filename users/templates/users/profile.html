@@ -5,12 +5,17 @@
     <img src="{{ user.profile.image.url }}" class="card-img rounded-circle border mx-auto d-block" style="height: 15rem; width: 15rem;" alt="">
     <h1 class="card-title">{{ user.username }}</h1>
     <p class="card-text">{{ user.email }}</p>
-    <p class="card-text"><a href="{% url 'edit-profile' %}" class="link-dark">Edit Profile</a></p>
+    <div class="d-flex justify-content-center">
+        <p class="card-text"><a href="{% url 'edit-profile' %}" class="btn btn-outline-dark m-2">Edit Profile</a></p>
+        <p class="card-text"><a href="{% url 'view-items' %}" class="btn btn-outline-secondary m-2">View Items</a></p>
+    </div>
 </div>
 <div class="containter">
     <div class="row">
     </div>
 </div>
+
+
 
 <div class="container mt-3">
     <h5>Favorites:</h5> 

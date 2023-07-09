@@ -65,3 +65,10 @@ def profile(request):
     return render(request, 'users/profile.html', context)
 
     
+
+def viewItems(request):
+    context = {
+        'title': 'Item List',
+        'items_added': Item.objects.filter(added_by=request.user).order_by('-date_added')
+    }
+    return render(request, 'users/view_items.html', context)
