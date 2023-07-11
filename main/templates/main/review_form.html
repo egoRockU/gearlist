@@ -1,0 +1,22 @@
+{% extends "main/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div>
+    <form method="POST" action="">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Review {{ item_name }}</legend>
+            <div class="mb-4">
+                <small class="text-muted mb-4">Note: Ratings should be Minimum of <b>0.0</b> and Maximum of <b>5.0</b></small>
+            </div>
+            {{ form| crispy }}
+        </fieldset>
+        <div class="form-group py-3">
+            <button class="btn btn-dark" type="submit">Submit Review</button>
+        </div>
+    </form>
+</div>
+
+
+{% endblock %}

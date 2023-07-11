@@ -1,11 +1,12 @@
-from typing import Optional
+from typing import Any, Dict, Optional
 from django.shortcuts import render
-from .models import Item
+from .models import Item, Review
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from .forms import ReviewForm
 
 
 def home(request):
@@ -44,7 +45,8 @@ class ItemDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = self.get_object().name
-        context["reviews"] = self.get_object().reviews.all()
+        context["user_review"] = self.get_object().reviews.filter(author=self.request.user).first()
+        context["reviews"] = self.get_object().reviews.exclude(author=self.request.user)
         return context
 
 
@@ -92,3 +94,24 @@ def add_favorite(request, id):
         messages.success(request, f'{post.name} is added to favorites')
 
     return redirect('item-details', slug=post.slug)
+
+
+class ReviewCreateView(LoginRequiredMixin, CreateView):
+    model = Review
+    form_class = ReviewForm
+
+    def get_context_data(self, **kwargs):
+        slug = self.kwargs['slug']
+        item = Item.objects.get(slug=slug)
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Add Review'
+        context['item_name'] = item.name
+        return context
+
+
+    def form_valid(self, form):
+        slug = self.kwargs['slug']
+        item = Item.objects.get(slug=slug)
+        form.instance.author = self.request.user
+        form.instance.item_reviewed = item
+        return super().form_valid(form)

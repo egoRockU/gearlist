@@ -55,10 +55,43 @@
     </div>
 </div>
 <div class="container">  
-    {% if reviews.count == 0 %}
+    {% if reviews.count == 0 and user_review == None %}
         <h3>No Reviews</h3>
+        <div class="btn-group d-flex justify-content-center mb-2">
+            <a class="btn btn-outline-dark">Add Review</a>
+        </div>
     {% else %}
         <h3>Reviews</h3>
+        {% if user_review == None %}
+            <div class="btn-group d-flex justify-content-center mb-2">
+                <a class="btn btn-outline-dark">Add Review</a>
+            </div>
+        {% else %}
+            <div class="card border border-secondary mb-2">
+                <div class="row">
+                    <div class="col-2 m-2 pt-2 d-flex flex-column align-items-center justify-content-center">
+                        <img src="{{ user_review.author.profile.image.url }}" class="rounded-circle border" style="height: 5rem; width: 5rem;" alt="">
+                        <h5>{{ user_review.author }}</h5>
+                    </div>
+                    <div class="col-7 m-2 pt-2 d-flex flex-column">
+                        <h6 class="border-bottom">Rating: {{ user_review.score }}</h6>
+                        <small>Cosmetics: {{ user_review.r_cosmetics }}</small>
+                        <small>Sound: {{ user_review.r_sound }}</small>
+                        <small>Playability: {{ user_review.r_playability }}</small>
+                        <small>Build Quality: {{ user_review.r_build_quality }}</small>
+                    </div>
+                    <div class="col d-flex align-items-center justify-content-center">
+                        <a class="btn btn-outline-secondary mx-2">Edit</a>
+                        <a class="btn btn-outline-danger">Delete</a>
+                    </div>
+                </div>
+                <div class="row m-2 border-top">
+                    <p>{{ user_review.comment }}</p>
+                </div>
+            </div>
+        {% endif %}
+
+        
         {% for review in reviews %}
             <div class="card border border-secondary mb-2">
                 <div class="row">

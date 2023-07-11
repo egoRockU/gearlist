@@ -1,3 +1,4 @@
+from typing import Any, Dict, Tuple
 from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
@@ -83,7 +84,13 @@ class Review(models.Model):
         self.item_reviewed.recalculate_rating()
         self.item_reviewed.save()
 
+    def delete(self, *args, **kwargs):
+        super().delete(*args, **kwargs)
+        self.item_reviewed.recalculate_rating()
+        self.item_reviewed.save()
+
     def __str__(self):
         return f'{self.item_reviewed} review - {self.author}'
 
-
+    def get_absolute_url(self):
+        return reverse("item-details", kwargs={"slug": self.item_reviewed.slug})

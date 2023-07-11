@@ -2,7 +2,13 @@ from django.urls import path, include
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
-from main.views import ItemDetailView, ItemCreateView, ItemUpdateView, ItemDeleteView
+from main.views import (
+    ItemDetailView, 
+    ItemCreateView, 
+    ItemUpdateView, 
+    ItemDeleteView,
+    ReviewCreateView
+    )
 
 urlpatterns = [
     path("", views.home, name="home"),
@@ -14,4 +20,5 @@ urlpatterns = [
     path("item-create/", ItemCreateView.as_view(), name="item-create"),
     path("<slug:slug>/update", ItemUpdateView.as_view(), name="item-update"),
     path("<slug:slug>/delete", ItemDeleteView.as_view(), name="item-delete"),
+    path("<slug:slug>/add-review", ReviewCreateView.as_view(), name="add-review"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
