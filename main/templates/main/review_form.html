@@ -6,7 +6,7 @@
     <form method="POST" action="">
         {% csrf_token %}
         <fieldset class="form-group">
-            <legend class="border-bottom mb-4">Review {{ item_name }}</legend>
+            <legend class="border-bottom mb-4">{{ form_legend }} <b>{{ item_name }}</b></legend>
             <div class="mb-4">
                 <small class="text-muted mb-4">Note: Ratings should be Minimum of <b>0.0</b> and Maximum of <b>5.0</b></small>
             </div>

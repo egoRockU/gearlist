@@ -66,6 +66,7 @@ class Item(models.Model):
 
 
 class Review(models.Model):
+    id = models.AutoField(primary_key=True)
     author = models.ForeignKey(User,related_name='reviewed', null=True, on_delete=models.SET_NULL)
     item_reviewed = models.ForeignKey(Item, related_name='reviews', null=True, on_delete=models.SET_NULL)
     score = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(5.0)], null=True, default=0.0)

@@ -58,13 +58,13 @@
     {% if reviews.count == 0 and user_review == None %}
         <h3>No Reviews</h3>
         <div class="btn-group d-flex justify-content-center mb-2">
-            <a class="btn btn-outline-dark">Add Review</a>
+            <a href="{% url 'add-review' item_slug %}" class="btn btn-outline-dark">Add Review</a>
         </div>
     {% else %}
         <h3>Reviews</h3>
         {% if user_review == None %}
             <div class="btn-group d-flex justify-content-center mb-2">
-                <a class="btn btn-outline-dark">Add Review</a>
+                <a href="{% url 'add-review' item_slug %}" class="btn btn-outline-dark">Add Review</a>
             </div>
         {% else %}
             <div class="card border border-secondary mb-2">
@@ -81,8 +81,8 @@
                         <small>Build Quality: {{ user_review.r_build_quality }}</small>
                     </div>
                     <div class="col d-flex align-items-center justify-content-center">
-                        <a class="btn btn-outline-secondary mx-2">Edit</a>
-                        <a class="btn btn-outline-danger">Delete</a>
+                        <a href="{% url 'update-review' user_review.id %}" class="btn btn-outline-secondary mx-2">Edit</a>
+                        <a href="{% url 'delete-review' user_review.id %}" class="btn btn-outline-danger">Delete</a>
                     </div>
                 </div>
                 <div class="row m-2 border-top">

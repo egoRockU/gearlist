@@ -7,7 +7,9 @@ from main.views import (
     ItemCreateView, 
     ItemUpdateView, 
     ItemDeleteView,
-    ReviewCreateView
+    ReviewCreateView,
+    ReviewUpdateView,
+    ReviewDeleteView
     )
 
 urlpatterns = [
@@ -21,4 +23,6 @@ urlpatterns = [
     path("<slug:slug>/update", ItemUpdateView.as_view(), name="item-update"),
     path("<slug:slug>/delete", ItemDeleteView.as_view(), name="item-delete"),
     path("<slug:slug>/add-review", ReviewCreateView.as_view(), name="add-review"),
+    path("<int:pk>/update-review/", ReviewUpdateView.as_view(), name="update-review"),
+    path("<int:pk>/delete-review/", ReviewDeleteView.as_view(), name="delete-review"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

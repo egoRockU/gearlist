@@ -45,6 +45,7 @@ class ItemDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = self.get_object().name
+        context["item_slug"] = self.get_object().slug
         context["user_review"] = self.get_object().reviews.filter(author=self.request.user).first()
         context["reviews"] = self.get_object().reviews.exclude(author=self.request.user)
         return context
@@ -105,9 +106,9 @@ class ReviewCreateView(LoginRequiredMixin, CreateView):
         item = Item.objects.get(slug=slug)
         context = super().get_context_data(**kwargs)
         context['title'] = 'Add Review'
+        context['form_legend'] = 'Add Review for'
         context['item_name'] = item.name
         return context
-
 
     def form_valid(self, form):
         slug = self.kwargs['slug']
@@ -115,3 +116,40 @@ class ReviewCreateView(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         form.instance.item_reviewed = item
         return super().form_valid(form)
+    
+
+class ReviewUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Review
+    form_class = ReviewForm
+
+    def get_context_data(self, **kwargs):
+        id = self.kwargs['pk']
+        review = Review.objects.get(id=id)
+        item_review = review.item_reviewed
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Edit Review'
+        context['form_legend'] = 'Edit Review for'
+        context['item_name'] = item_review.name
+        return context
+    
+    
+    def test_func(self):
+        review = self.get_object()
+        return (self.request.user == review.author)
+    
+
+class ReviewDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Review
+    success_url = '/'
+
+    def get_context_data(self, **kwargs):
+        id = self.kwargs['pk']
+        review = Review.objects.get(id=id)
+        item_review = review.item_reviewed
+        context = super().get_context_data(**kwargs)
+        context['item_reviewed'] = item_review
+        return context
+
+    def test_func(self):
+        review = self.get_object()
+        return (self.request.user == review.author)
