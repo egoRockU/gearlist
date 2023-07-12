@@ -25,4 +25,5 @@ urlpatterns = [
     path("<slug:slug>/add-review", ReviewCreateView.as_view(), name="add-review"),
     path("<int:pk>/update-review/", ReviewUpdateView.as_view(), name="update-review"),
     path("<int:pk>/delete-review/", ReviewDeleteView.as_view(), name="delete-review"),
+    path("<slug:slug>/<int:id>/approve", views.approve, name="approve"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

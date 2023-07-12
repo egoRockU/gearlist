@@ -7,7 +7,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .forms import ReviewForm
-
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 def home(request):
     context = {
@@ -44,10 +45,19 @@ class ItemDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        reviews = self.get_object().reviews.exclude(author=self.request.user)
+        approved = False
+        for review in reviews:
+            if review.approves.filter(id=self.request.user.id).exists():
+                approved = True
+            else:
+                approved = False
+
         context["title"] = self.get_object().name
         context["item_slug"] = self.get_object().slug
         context["user_review"] = self.get_object().reviews.filter(author=self.request.user).first()
-        context["reviews"] = self.get_object().reviews.exclude(author=self.request.user)
+        context["reviews"] = reviews
+        context["is_approved"] = approved
         return context
 
 
@@ -95,6 +105,16 @@ def add_favorite(request, id):
         messages.success(request, f'{post.name} is added to favorites')
 
     return redirect('item-details', slug=post.slug)
+
+
+def approve(request, slug, id):
+    review = get_object_or_404(Review, id=id)
+    item = get_object_or_404(Item, slug=slug)
+    if review.approves.filter(id=request.user.id).exists():
+        review.approves.remove(request.user)
+    else:
+        review.approves.add(request.user)
+    return HttpResponseRedirect(reverse('item-details', args=[item.slug]) + f'#{id}')
 
 
 class ReviewCreateView(LoginRequiredMixin, CreateView):
