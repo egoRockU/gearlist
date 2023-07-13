@@ -9,6 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .forms import ReviewForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.db.models import Count
 
 def home(request):
     context = {
@@ -47,21 +48,23 @@ class ItemDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         all_reviews = self.get_object().reviews
         reviews = self.get_object().reviews.exclude(author=self.request.user)
-        approved = False
-        for review in reviews:
-            if review.approves.filter(id=self.request.user.id).exists():
-                approved = True
-            else:
-                approved = False
+        reviews_set = {}
 
-        
+        for review in reviews:
+            key = review
+            if review.approves.filter(id=self.request.user.id).exists():
+                value = True
+                reviews_set[key] = value
+            else:
+                value = False
+                reviews_set[key] = value
 
         context["title"] = self.get_object().name
         context["item_slug"] = self.get_object().slug
         context["user_review"] = self.get_object().reviews.filter(author=self.request.user).first()
         context["reviews"] = reviews
-        context["is_approved"] = approved
-        context["highlighted_review"] = all_reviews.order_by('-approves').first()
+        context["reviews_set"] = reviews_set
+        context["highlighted_review"] = all_reviews.annotate(approve_count=Count('approves')).order_by('-approve_count').first()
         return context
 
 
