@@ -6,6 +6,7 @@ from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 from main.models import Item, Review
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 def register(request):
@@ -65,10 +66,20 @@ def profile(request):
     return render(request, 'users/profile.html', context)
 
     
-
+@login_required
 def viewItems(request):
+    items_added = Item.objects.filter(added_by=request.user).order_by('-date_added')
+    item_paginated = Paginator(items_added, 5)
+    page = request.GET.get('page')
+    try:
+        items = item_paginated.page(page)
+    except PageNotAnInteger:
+        items = item_paginated.page(1)
+    except EmptyPage:
+        items = item_paginated.page(item_paginated.num_pages)
+
     context = {
         'title': 'Item List',
-        'items_added': Item.objects.filter(added_by=request.user).order_by('-date_added')
+        'items_added': items,
     }
     return render(request, 'users/view_items.html', context)

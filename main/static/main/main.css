@@ -42,3 +42,16 @@ a.fav-button {
     max-width: 100px;
     overflow: hidden;
 }
+
+.pagination{
+    border-color: black;
+}
+.page-item.active .page-link{
+    background-color: black;
+    color: white;
+    border-color: black;
+}
+
+.page-item .page-link:focus{
+    box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.671);
+}

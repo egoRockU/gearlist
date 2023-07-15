@@ -23,6 +23,29 @@
             </div>
         </div>
     {% endfor %}
+    <div class="row m-2 d-grid justify-content-end align-items-center">
+        <ul class="pagination pagination-color-dark">
+            {% if items_added.has_previous %}
+                <li class="page-item">
+                    <a class="page-link text-dark" href="?page={{ items_added.previous_page_number }}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item"><a class="page-link text-dark" href="?page={{ items_added.previous_page_number }}">{{ items_added.previous_page_number }}</a></li>
+            {% endif %}
+    
+            <li class="page-item active"><a class="page-link" href="#">{{ items_added.number }}</a></li>
+    
+            {% if items_added.has_next %}
+                <li class="page-item"><a class="page-link text-dark" href="?page={{ items_added.next_page_number }}">{{ items_added.next_page_number }}</a></li>
+                <li class="page-item">
+                    <a class="page-link text-dark" href="?page={{ items_added.next_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
 </div>
 
 
