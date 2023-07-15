@@ -37,20 +37,27 @@ def about(request):
     }
     return render(request, 'main/about.html', context)
 
-def all(request):
-    context = {
-        'title': 'All',
-        'items': Item.objects.all().order_by('name'),
-    }
-    return render(request, 'main/all.html', context)
+def category(request, cat):
+    if cat != 'All':
+        items = Item.objects.filter(category=cat).order_by('-date_added')
+    else:
+        items = Item.objects.all().order_by('name')
+    
+    item_paginated = Paginator(items, 20)
 
-def bass(request):
-    context = {
-        'title': 'All',
-        'items': Item.objects.filter(category='Bass').order_by('-date_added'),
-    }
-    return render(request, 'main/bass.html', context)
+    page = request.GET.get('page')
+    try:
+        items = item_paginated.page(page)
+    except PageNotAnInteger:
+        items = item_paginated.page(1)
+    except EmptyPage:
+        items = item_paginated.page(item_paginated.num_pages)
 
+    context = {
+        'title': cat,
+        'items': items,
+    }
+    return render(request, 'main/category.html', context)
 
 class ItemDetailView(DetailView):
     model = Item

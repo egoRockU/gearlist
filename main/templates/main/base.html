@@ -71,11 +71,11 @@
                 </div>
                 <div class="list-group list-group-flush">
                     <a class="list-group-item list-group-item-action" href="{% url "home" %}">Recent</a>
-                    <a class="list-group-item list-group-item-action" href="{% url "all" %}">All</a>
-                    <a class="list-group-item list-group-item-action" href="{% url "bass" %}">Bass</a>
-                    <a class="list-group-item list-group-item-action" href="#">Drums</a>
-                    <a class="list-group-item list-group-item-action" href="#">Guitars</a>
-                    <a class="list-group-item list-group-item-action" href="#">Others</a>
+                    <a class="list-group-item list-group-item-action" href="{% url "category" 'All' %}">All</a>
+                    <a class="list-group-item list-group-item-action" href="{% url "category" 'Bass' %}">Bass</a>
+                    <a class="list-group-item list-group-item-action" href="{% url "category" 'Drums' %}">Drums</a>
+                    <a class="list-group-item list-group-item-action" href="{% url "category" 'Guitar' %}">Guitars</a>
+                    <a class="list-group-item list-group-item-action" href="{% url "category" 'Others' %}">Others</a>
 
                   </div>
             </div>
