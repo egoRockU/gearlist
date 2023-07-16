@@ -60,6 +60,33 @@ def category(request, cat):
     }
     return render(request, 'main/category.html', context)
 
+def rankings(request):  
+    items = Item.objects.all().order_by('-rating')
+    item_paginated = Paginator(items, 20)
+    bass = Item.objects.filter(category='Bass').order_by('-rating')[0:10]
+    drums = Item.objects.filter(category='Drums').order_by('-rating')[0:10]
+    guitar = Item.objects.filter(category='Guitar').order_by('-rating')[0:10]
+    others = Item.objects.filter(category='Others').order_by('-rating')[0:10]
+
+    page = request.GET.get('page')
+    try:
+        items = item_paginated.page(page)
+    except PageNotAnInteger:
+        items = item_paginated.page(1)
+    except EmptyPage:
+        items = item_paginated.page(item_paginated.num_pages)
+
+    context = {
+        'title': "Top Rated",
+        'items': items,
+        'item_paginated': item_paginated,
+        'bass': bass,
+        'drums': drums,
+        'guitar': guitar,
+        'others': others,
+    }
+    return render(request, 'main/rankings.html', context)
+
 def search_results(request):
     if request.method == "POST":
         searched = request.POST.get('item_searched')
@@ -119,6 +146,7 @@ class ItemDetailView(DetailView):
         context["reviews"] = reviews
         context["reviews_set"] = reviews_set
         context["reviews_paginated"] = reviews_to_loop
+        context["reviews_set_paginated"] = reviews_set_paginated
         context["reviews_to_loop"] = [(review, is_approved) for review, is_approved in reviews_to_loop]
         context["highlighted_review"] = all_reviews.annotate(approve_count=Count('approves')).order_by('-approve_count').first()
         return context

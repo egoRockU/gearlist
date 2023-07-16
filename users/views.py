@@ -81,5 +81,6 @@ def viewItems(request):
     context = {
         'title': 'Item List',
         'items_added': items,
+        'item_paginated': item_paginated,
     }
     return render(request, 'users/view_items.html', context)

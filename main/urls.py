@@ -15,6 +15,7 @@ from main.views import (
 urlpatterns = [
     path("", views.home, name="home"),
     path("about/", views.about, name="about"),
+    path("rankings/", views.rankings, name="rankings"),
     path("<slug:slug>/details/", ItemDetailView.as_view(), name="item-details"),
     path("fav/<int:id>/", views.add_favorite, name="add-favorite"),
     path("item-create/", ItemCreateView.as_view(), name="item-create"),

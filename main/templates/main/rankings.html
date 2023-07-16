@@ -1,0 +1,88 @@
+{% extends "main/base.html" %}
+{% block content %}
+
+<div class="d-grid d-flex justify-content-between align-items-center p-2">
+    <h1>Top Rated Gears</h1>
+    <h5><a href="{% url 'item-create' %}" class="link-dark">Add Items</a></h5>
+</div>
+<div class="container d-flex">
+    <div class="col border d-grid flex-column justify-content-center align-items-start rounded m-3">
+        <h3 class="d-flex justify-content-center">Top Basses</h3>
+        {% for item in bass %}
+            <div class="card border-secondary m-2">
+                <div class="row mb-2 p-2">
+                    <div class="col">
+                        <h5>
+                            <a href="{% url 'item-details' item.slug %}" class="card-link link-dark stretched-link">
+                                {{ item.name }}
+                            </a>  
+                            |
+                            <small class="text-muted">{{ item.rating }}</small> 
+                        </h5>
+                    </div>
+                </div>
+            </div> 
+        {% endfor %}
+    </div>
+
+    <div class="col border d-grid flex-column justify-content-center align-items-start rounded m-3">
+        <h3 class="d-flex justify-content-center">Top Drums</h3>
+        {% for item in drums %}
+            <div class="card border-secondary m-2">
+                <div class="row mb-2 p-2">
+                    <div class="col">
+                        <h5>
+                            <a href="{% url 'item-details' item.slug %}" class="card-link link-dark stretched-link">
+                                {{ item.name }}
+                            </a> |
+                            <small class="text-muted">{{ item.rating }}</small> 
+                        </h5>
+                    </div>
+                </div>
+            </div> 
+        {% endfor %}
+    </div>
+
+    <div class="col border d-grid flex-column justify-content-center align-items-start rounded m-3">
+        <h3 class="d-flex justify-content-center">Top Guitars</h3>
+        {% for item in guitar %}
+            <div class="card border-secondary m-2">
+                <div class="row mb-2 p-2">
+                    <div class="col">
+                        <h5>
+                            <a href="{% url 'item-details' item.slug %}" class="card-link link-dark stretched-link">
+                                {{ item.name }}
+                            </a> |
+                            <small class="text-muted">{{ item.rating }}</small> 
+                        </h5>
+                    </div>
+                </div>
+            </div> 
+        {% endfor %}
+    </div>
+
+    <div class="col border d-grid flex-column justify-content-center align-items-start rounded m-3">
+        <h3 class="d-flex justify-content-center">Top Others</h3>
+        {% for item in others %}
+            <div class="card border-secondary m-2">
+                <div class="row mb-2 p-2">
+                    <div class="col">
+                        <h5>
+                            <a href="{% url 'item-details' item.slug %}" class="card-link link-dark stretched-link">
+                                {{ item.name }}
+                            </a> |
+                            <small class="text-muted">{{ item.rating }}</small> 
+                        </h5>
+                    </div>
+                </div>
+            </div> 
+        {% endfor %}
+    </div>
+
+</div>
+
+
+
+
+
+{% endblock %}
