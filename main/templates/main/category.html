@@ -28,6 +28,7 @@
 </div>
 
 <div class="row m-2 d-grid justify-content-end align-items-center">
+    {% if item_paginated.num_pages != 1 %}
     <ul class="pagination pagination-color-dark">
         {% if items.has_previous %}
             <li class="page-item">
@@ -49,6 +50,7 @@
             </li>
         {% endif %}
     </ul>
+    {% endif %}
 </div>
 
 

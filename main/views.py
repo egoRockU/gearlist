@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .forms import ReviewForm
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.db.models import Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -56,8 +56,22 @@ def category(request, cat):
     context = {
         'title': cat,
         'items': items,
+        'item_paginated': item_paginated,
     }
     return render(request, 'main/category.html', context)
+
+def search_results(request):
+    if request.method == "POST":
+        searched = request.POST.get('item_searched')
+        all_items = Item.objects.filter(name__contains=searched).order_by('-date_added')
+        context = {
+        'title': 'Search Results',
+        'items': all_items,
+        'searched': searched
+        }
+        return render(request, 'main/search_results.html', context)
+    else:
+        return HttpResponse(status=404)
 
 class ItemDetailView(DetailView):
     model = Item

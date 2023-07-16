@@ -2,7 +2,7 @@
 {% block content %}
 
 <div class="d-grid d-flex justify-content-between align-items-center p-2">
-    <h1>Recently Added</h1>
+    <h1>You searched for {{ searched }}</h1>
     <h5><a href="{% url 'item-create' %}" class="link-dark">Add Items</a></h5>
 </div>
 <div class="row m-2">
@@ -30,31 +30,6 @@
 
 </div>
 
-<div class="row m-2 d-grid justify-content-end align-items-center">
-    {% if item_paginated.num_pages != 1 %}
-        <ul class="pagination pagination-color-dark">
-            {% if items.has_previous %}
-                <li class="page-item">
-                    <a class="page-link text-dark" href="?page={{ items.previous_page_number }}" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <li class="page-item"><a class="page-link text-dark" href="?page={{ items.previous_page_number }}">{{ items.previous_page_number }}</a></li>
-            {% endif %}
-
-            <li class="page-item active"><a class="page-link" href="#">{{ items.number }}</a></li>
-
-            {% if items.has_next %}
-                <li class="page-item"><a class="page-link text-dark" href="?page={{ items.next_page_number }}">{{ items.next_page_number }}</a></li>
-                <li class="page-item">
-                    <a class="page-link text-dark" href="?page={{ items.next_page_number }}" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            {% endif %}
-        </ul>
-    {% endif %}
-</div>
 
 
 

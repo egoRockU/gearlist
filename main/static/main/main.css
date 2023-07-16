@@ -10,19 +10,15 @@ main {
 }
 
 .form-control:focus {
-    border-color: #28a745;
-    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+    border-color: #353535;
+    box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.25);
 }
 
 .form-select:focus{
-    border-color: #28a745;
-    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+    border-color: #353535;
+    box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.25);
 }
 
-.form-select option:hover{
-    background-color: #28a745;
-    color: #28a745;
-}
 
 a.fav-button {
     height:3rem; 
