@@ -164,6 +164,7 @@ class ItemCreateView(LoginRequiredMixin, CreateView):
 class ItemUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Item
     fields = ['name', 'category', 'brand', 'description', 'images']
+    template_name_suffix = "_update_form"
 
     def form_valid(self, form):
         form.instance.added_by = self.request.user
