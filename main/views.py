@@ -14,7 +14,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def home(request):
     all_items = Item.objects.all().order_by('-date_added')
-    item_paginated = Paginator(all_items, 20)
+    item_paginated = Paginator(all_items, 8)
     page = request.GET.get('page')
     try:
         items = item_paginated.page(page)
@@ -43,7 +43,7 @@ def category(request, cat):
     else:
         items = Item.objects.all().order_by('name')
     
-    item_paginated = Paginator(items, 20)
+    item_paginated = Paginator(items, 8)
 
     page = request.GET.get('page')
     try:
@@ -61,25 +61,13 @@ def category(request, cat):
     return render(request, 'main/category.html', context)
 
 def rankings(request):  
-    items = Item.objects.all().order_by('-rating')
-    item_paginated = Paginator(items, 20)
     bass = Item.objects.filter(category='Bass').order_by('-rating')[0:10]
     drums = Item.objects.filter(category='Drums').order_by('-rating')[0:10]
     guitar = Item.objects.filter(category='Guitar').order_by('-rating')[0:10]
     others = Item.objects.filter(category='Others').order_by('-rating')[0:10]
 
-    page = request.GET.get('page')
-    try:
-        items = item_paginated.page(page)
-    except PageNotAnInteger:
-        items = item_paginated.page(1)
-    except EmptyPage:
-        items = item_paginated.page(item_paginated.num_pages)
-
     context = {
         'title': "Top Rated",
-        'items': items,
-        'item_paginated': item_paginated,
         'bass': bass,
         'drums': drums,
         'guitar': guitar,
@@ -90,7 +78,7 @@ def rankings(request):
 def search_results(request):
     if request.method == "POST":
         searched = request.POST.get('item_searched')
-        all_items = Item.objects.filter(name__contains=searched).order_by('-date_added')
+        all_items = Item.objects.filter(name__contains=searched).order_by('-date_added') | Item.objects.filter(brand__contains=searched).order_by('-date_added')
         context = {
         'title': 'Search Results',
         'items': all_items,
@@ -126,7 +114,7 @@ class ItemDetailView(DetailView):
         reviews_set = tuple(reviews_set.items())
 
         if reviews_set != None:
-            reviews_set_paginated = Paginator(reviews_set,10)
+            reviews_set_paginated = Paginator(reviews_set,5)
         else:
             reviews_set_paginated = None
 
