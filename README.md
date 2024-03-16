@@ -1,7 +1,6 @@
 [![Gearlist Banner](https://github.com/egoRockU/gearlist/blob/master/screenshots/GearList.png?raw=true "GearList")](https://gearlist.pythonanywhere.com/)
 
 ## Musical Instrument rating site created in Django
----
 
 > Because gears are often a discussion in the realm of musicians. 
 
@@ -14,7 +13,6 @@
 
 
 ## Previews
----
 
 ### Home
 ![GearList Home](https://github.com/egoRockU/gearlist/blob/master/screenshots/Home.PNG?raw=true)
